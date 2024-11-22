@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/global_variables.dart';
 import 'package:shop_app/product_card.dart';
+import 'package:shop_app/product_details_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,6 +15,7 @@ class _HomePageState extends State<HomePage> {
     'All', 'Adidas', 'Nike', 'Bata'
   ];
   late String selectedFilter;
+  int currentPageIndex = 0;
 
   @override
   void initState() {
@@ -32,16 +34,16 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: Column(
           children: [
-            const Row(
+            Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(20.0),
                   child: Text(
                   'Shoes\nCollection',
-                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 36),
+                   style: Theme.of(context).textTheme.titleLarge
                    ),
                 ),
-                 Expanded(
+                 const Expanded(
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: 'Search',
@@ -93,16 +95,43 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context,index) {
                   final product = products[index];
                   final Color color = index.isEven ? const Color.fromRGBO(216, 240, 253, 1) : const Color.fromRGBO(245, 247, 249, 1);
-                  return ProductCard(
-                    title: product['title'] as String, price: product['price'] as double,
-                    image: product['imageUrl'] as String, backgroundColor: color
+                  return GestureDetector(
+                    onTap: () {
+                      //kendisi devamında dönmek için back button veriyor...ilginç
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) {
+                          return ProductDetailsPage(product: product);
+                            },
+                          ),
+                        );
+                    },
+                    child: ProductCard(
+                      title: product['title'] as String,
+                      price: product['price'] as double,
+                      image: product['imageUrl'] as String, 
+                      backgroundColor: color
+                    ),
                   );
                 },
                 ),
             ),
           ],
         ),
-      )
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        //value represents the index of the tapped navigation bar item
+        //It's automatically passed by Flutter when a navigation bar item is pressed
+        onTap: (pageIndex) {
+          setState(() {
+            currentPageIndex = pageIndex;
+          });
+        },
+        currentIndex: currentPageIndex,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: '' ),
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: ''),
+        ],
+        ),
     );
   }
 }
