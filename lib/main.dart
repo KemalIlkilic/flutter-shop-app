@@ -18,6 +18,9 @@ class MyApp extends StatelessWidget {
           seedColor: const Color.fromRGBO(254, 206, 1, 1),
           primary: const Color.fromRGBO(254, 206, 1, 1)
           ),
+        appBarTheme: const AppBarTheme(
+          titleTextStyle: TextStyle(fontSize: 20, color: Colors.black)
+        ),
         inputDecorationTheme: const InputDecorationTheme(
           hintStyle: TextStyle(
             fontWeight: FontWeight.bold,
@@ -26,6 +29,7 @@ class MyApp extends StatelessWidget {
           prefixIconColor: Color.fromRGBO(119, 119, 119, 1)
         ),
         textTheme: const TextTheme(
+          titleLarge: TextStyle(fontWeight: FontWeight.bold, fontSize: 36),
           titleMedium: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -35,8 +39,18 @@ class MyApp extends StatelessWidget {
             fontSize: 16,
           ),
         ),
+        useMaterial3: true,
       ),
+      /* home: const ProductDetailsPage(product: {
+    'id': '0',
+    'title': 'Men\'s Nike Shoes',
+    'price': 44.52,
+    'imageUrl': 'assets/images/shoes_1.png',
+    'company': 'Nike',
+    'sizes': [9, 10, 11, 12],
+  },), */
       home: const HomePage(),
+      
     );
   }
 }
